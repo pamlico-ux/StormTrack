@@ -1,0 +1,5 @@
+{
+  "name": "SBC Cast Hub",
+  "description": "Touch-friendly dashboard for a multi-platform SBC casting solution supporting AirPlay, Google Cast, and Miracast.",
+  "requestFramePermissions": []
+}
