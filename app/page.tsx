@@ -23,7 +23,8 @@ import {
   Lock,
   Unlock,
   Delete,
-  ChevronRight
+  ChevronRight,
+  Waves
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -68,8 +69,11 @@ export default function Dashboard() {
     <div className="flex h-screen w-screen bg-zinc-950 text-zinc-50 overflow-hidden">
       {/* Sidebar */}
       <nav className="w-24 border-r border-zinc-800 bg-zinc-900/50 flex flex-col items-center py-8 gap-8 shrink-0">
-        <div className="p-3 bg-indigo-500/20 rounded-2xl text-indigo-400">
-          <MonitorPlay size={32} />
+        <div className="relative flex items-center justify-center w-14 h-14 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-lg overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center opacity-30">
+            <Waves size={48} className="text-yellow-400 -rotate-12 scale-150" />
+          </div>
+          <span className="relative z-10 text-2xl font-serif font-bold text-white tracking-tighter">PC</span>
         </div>
 
         {!isLocked ? (
@@ -154,12 +158,20 @@ function IdleView() {
     <div className="h-full flex flex-col p-8 lg:p-12 relative overflow-y-auto">
       {/* Header */}
       <header className="flex justify-between items-center mb-12">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight text-white">{sbcName}</h1>
-          <p className="text-xl text-zinc-400 mt-2">Pamlico County Schools Display System</p>
+        <div className="flex items-center gap-6">
+          <div className="w-16 h-16 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-lg flex items-center justify-center relative overflow-hidden shrink-0">
+             <div className="absolute inset-0 flex items-center justify-center opacity-30">
+               <Waves size={64} className="text-yellow-400 -rotate-12 scale-150" />
+             </div>
+             <span className="relative z-10 text-3xl font-serif font-bold text-white tracking-tighter">PC</span>
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight text-white">{sbcName}</h1>
+            <p className="text-xl text-yellow-400 mt-2">Pamlico County Schools Display System</p>
+          </div>
         </div>
         <div className="flex items-center gap-4 bg-zinc-900/80 px-6 py-3 rounded-2xl border border-zinc-800">
-          <Wifi className="text-indigo-400" size={24} />
+          <Wifi className="text-yellow-400" size={24} />
           <div className="flex flex-col">
             <span className="text-sm text-zinc-400">Network</span>
             <span className="font-semibold text-white">{network}</span>
@@ -232,7 +244,7 @@ function IdleView() {
       <footer className="mt-12 flex justify-between items-center text-zinc-500 bg-zinc-900/30 p-6 rounded-2xl border border-zinc-800/50">
         <div className="flex items-center gap-3">
           <LifeBuoy size={24} />
-          <span>Need help? Contact IT Support at ext. 5555 or support@pamlicoschools.org</span>
+          <span>Need help? IT Support can be contacted at pamlico.incidentiq.com</span>
         </div>
         <div className="font-mono text-sm">
           IP: {ipAddress}
@@ -285,7 +297,7 @@ function ActiveCastingView() {
         {/* Header */}
         <div className="flex justify-between items-center mb-12">
           <div className="flex items-center gap-4 bg-zinc-900/80 backdrop-blur-md px-6 py-3 rounded-full border border-zinc-800">
-            <Cast size={20} className="text-indigo-400" />
+            <Cast size={20} className="text-yellow-400" />
             <span className="font-medium text-lg">{state.protocol}</span>
             <span className="text-zinc-500">from</span>
             <span className="font-medium text-lg">{state.deviceName}</span>
@@ -418,9 +430,9 @@ function SettingsView() {
               <Input 
                 type="password"
                 value={appPin} 
-                onChange={(e) => setAppPin(e.target.value.replace(/\D/g, '').slice(0, 4))} 
-                className="w-32 bg-zinc-950 border-zinc-800 text-lg text-center tracking-widest"
-                placeholder="1234"
+                onChange={(e) => setAppPin(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                className="w-40 bg-zinc-950 border-zinc-800 text-lg text-center tracking-widest"
+                placeholder="123456"
               />
             </div>
           </CardContent>
@@ -552,7 +564,7 @@ function WifiWizard({ onClose, onConnect }: { onClose: () => void, onConnect: (n
         <div className="p-6 min-h-[300px] flex flex-col">
           {step === 'scan' && (
             <div className="flex-1 flex flex-col items-center justify-center text-zinc-400">
-              <Loader2 size={48} className="animate-spin mb-6 text-indigo-500" />
+              <Loader2 size={48} className="animate-spin mb-6 text-yellow-400" />
               <p className="text-lg">Scanning for networks...</p>
             </div>
           )}
@@ -568,7 +580,7 @@ function WifiWizard({ onClose, onConnect }: { onClose: () => void, onConnect: (n
                       setSelectedNetwork(net.ssid);
                       setStep(net.secure ? 'password' : 'connecting');
                     }}
-                    className="w-full flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-indigo-500 hover:bg-indigo-500/10 transition-colors text-left"
+                    className="w-full flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-yellow-400 hover:bg-yellow-400/10 transition-colors text-left"
                   >
                     <div className="flex items-center gap-3">
                       <Wifi size={20} className="text-zinc-400" />
@@ -607,7 +619,7 @@ function WifiWizard({ onClose, onConnect }: { onClose: () => void, onConnect: (n
 
               <div className="mt-auto pt-8 flex justify-end gap-4">
                 <Button variant="ghost" onClick={() => setStep('select')}>Cancel</Button>
-                <Button onClick={handleConnect} disabled={password.length < 8} className="bg-indigo-600 hover:bg-indigo-700">
+                <Button onClick={handleConnect} disabled={password.length < 8} className="bg-yellow-500 hover:bg-yellow-400 text-zinc-950 font-semibold">
                   Connect
                 </Button>
               </div>
@@ -616,7 +628,7 @@ function WifiWizard({ onClose, onConnect }: { onClose: () => void, onConnect: (n
 
           {step === 'connecting' && (
             <div className="flex-1 flex flex-col items-center justify-center text-zinc-400">
-              <Loader2 size={48} className="animate-spin mb-6 text-indigo-500" />
+              <Loader2 size={48} className="animate-spin mb-6 text-yellow-400" />
               <p className="text-lg">Connecting to {selectedNetwork}...</p>
             </div>
           )}
@@ -640,11 +652,11 @@ function UnlockModal({ onClose }: { onClose: () => void }) {
   const [error, setError] = useState(false);
 
   const handlePress = (num: string) => {
-    if (pin.length < 4) {
+    if (pin.length < 6) {
       const newPin = pin + num;
       setPin(newPin);
       setError(false);
-      if (newPin.length === 4) {
+      if (newPin.length === 6) {
         if (newPin === appPin) {
           setIsLocked(false);
           onClose();
@@ -677,12 +689,12 @@ function UnlockModal({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="flex justify-center gap-4 mb-8">
-          {[0, 1, 2, 3].map((i) => (
+          {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
               className={`w-4 h-4 rounded-full border-2 ${
                 error ? "border-red-500 bg-red-500" :
-                i < pin.length ? "border-indigo-500 bg-indigo-500" : "border-zinc-700 bg-transparent"
+                i < pin.length ? "border-yellow-400 bg-yellow-400" : "border-zinc-700 bg-transparent"
               } transition-colors`}
             />
           ))}

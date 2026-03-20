@@ -63,7 +63,7 @@ export function CastProvider({ children }: { children: React.ReactNode }) {
   const [sbcName, setSbcName] = useState("Room 104 Display");
   const [network, setNetwork] = useState("Pamlico_Staff_WiFi");
   const [ipAddress, setIpAddress] = useState("10.0.4.142");
-  const [appPin, setAppPin] = useState("1234");
+  const [appPin, setAppPin] = useState("123456");
   const [isLocked, setIsLocked] = useState(false);
 
   const toggleProtocol = (protocol: CastProtocol) => {
