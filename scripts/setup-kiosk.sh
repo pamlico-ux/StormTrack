@@ -30,7 +30,7 @@ apt-get install -y \
   x11-xserver-utils \
   xinit \
   openbox \
-  chromium-browser \
+  chromium \
   unclutter \
   curl \
   git \
@@ -91,7 +91,7 @@ openbox-session &
 # --noerrdialogs: Suppress crash dialogs
 # --disable-infobars: Hide "Chrome is being controlled..."
 # --kiosk: Fullscreen mode
-exec chromium-browser \
+exec chromium \
   --noerrdialogs \
   --disable-infobars \
   --kiosk \
