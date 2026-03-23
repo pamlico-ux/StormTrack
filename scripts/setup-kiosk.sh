@@ -62,6 +62,18 @@ fi
 # Install PM2 for process management
 npm install -g pm2
 
+echo "Building and starting the application..."
+if [ -f "$APP_DIR/package.json" ]; then
+  cd "$APP_DIR"
+  npm install
+  npm run build
+  pm2 start npm --name "cast-hub" -- start
+  pm2 save
+  pm2 startup systemd -u root --hp /root
+else
+  echo "Warning: package.json not found in $APP_DIR. Skipping build."
+fi
+
 # 5. Configure the Kiosk User and Autostart
 KIOSK_USER="kiosk"
 
@@ -91,11 +103,15 @@ openbox-session &
 # --noerrdialogs: Suppress crash dialogs
 # --disable-infobars: Hide "Chrome is being controlled..."
 # --kiosk: Fullscreen mode
+# --touch-events=enabled: Force touch support
+# --overscroll-history-navigation=0: Disable swipe-to-go-back
 exec chromium \
   --noerrdialogs \
   --disable-infobars \
   --kiosk \
   --incognito \
+  --touch-events=enabled \
+  --overscroll-history-navigation=0 \
   --check-for-update-interval=31536000 \
   "http://localhost:3000"
 EOF
@@ -130,10 +146,5 @@ systemctl enable kiosk.service
 echo "========================================================================"
 echo "Provisioning complete!"
 echo ""
-echo "Next steps for the Golden Image:"
-echo "1. Copy your Next.js app files to $APP_DIR"
-echo "2. Run 'npm install' and 'npm run build' in $APP_DIR"
-echo "3. Start the app with PM2: 'pm2 start npm --name \"cast-hub\" -- start'"
-echo "4. Save the PM2 state: 'pm2 save' and 'pm2 startup'"
-echo "5. Reboot the device to verify it boots directly into the dashboard."
+echo "The device will now boot directly into the SBC Cast Hub dashboard."
 echo "========================================================================"
