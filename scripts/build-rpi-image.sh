@@ -12,6 +12,14 @@
 
 set -e
 
+# Ensure /sbin and /usr/sbin are in PATH (often missing when using sudo on Debian)
+export PATH=$PATH:/sbin:/usr/sbin
+
+if ! command -v losetup &> /dev/null; then
+  echo "Error: losetup command not found. Please install the 'util-linux' package."
+  exit 1
+fi
+
 if [ "$EUID" -ne 0 ]; then
   echo "Please run as root (use sudo)"
   exit 1
